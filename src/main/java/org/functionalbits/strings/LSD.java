@@ -1,35 +1,41 @@
-package org.functionalbits;
+package org.functionalbits.strings;
 
 import java.util.Arrays;
 
+/*
+LSD is a class that provides a static method for sorting an array of strings using the
+Least Significant Digit (LSD) radix sort algorithm.
+ */
 public class LSD {
     public static void sort(String[] input, int stringLength) {
         validateInput(input, stringLength);
-        System.out.println("Pre-Sorted:" + Arrays.toString(input));
 
         int n = input.length;
         int R = 256;
         String[] aux = new String[n];
 
+        // Sort by key-indexed counting on dth character
         for (int d = stringLength - 1; d >= 0; d--) {
             int[] count = new int[R + 1];
 
+            // Compute frequency counts
             for (String s : input) {
                 count[s.charAt(d) + 1]++;
             }
 
+            // Transform counts to indices
             for (int r = 0; r < R; r++) {
                 count[r + 1] += count[r];
             }
 
-            for (int i = 0; i < n; i++) {
-                aux[count[input[i].charAt(d)]++] = input[i];
+            // Distribute
+            for (String s : input) {
+                aux[count[s.charAt(d)]++] = s;
             }
 
+            // Copy back
             System.arraycopy(aux, 0, input, 0, n);
         }
-
-        System.out.println("Sorted:" + Arrays.toString(input));
     }
 
     /*
