@@ -2,16 +2,27 @@ package org.functionalbits.strings;
 
 import java.util.Arrays;
 
-/*
-LSD is a class that provides a static method for sorting an array of strings using the
-Least Significant Digit (LSD) radix sort algorithm.
+/**
+ * LSD is a class that provides a method for sorting an array of fixed length strings using the
+ * Least Significant Digit (LSD) radix sorting algorithm.
+ * n = input size
+ * w = string length
+ * r = radix / alphabet size
+ * O(w * n) time | O(n + r) space
  */
 public class LSD {
-    public static void sort(String[] input, int stringLength) {
+    private final Alphabet alphabet;
+    private final int R;
+
+    public LSD(Alphabet alphabet) {
+        this.alphabet = alphabet;
+        this.R = alphabet.radix();
+    }
+
+    public void sort(String[] input, int stringLength) {
         validateInput(input, stringLength);
 
         int n = input.length;
-        int R = 256;
         String[] aux = new String[n];
 
         // Sort by key-indexed counting on dth character
@@ -20,7 +31,7 @@ public class LSD {
 
             // Compute frequency counts
             for (String s : input) {
-                count[s.charAt(d) + 1]++;
+                count[alphabet.toIndex(s.charAt(d)) + 1]++;
             }
 
             // Transform counts to indices
@@ -38,6 +49,12 @@ public class LSD {
         }
     }
 
+    /**
+     * validateInput is a helper method that enforces the invariant that all strings in the
+     * input array are of the same length.
+     * @param input the array of strings to validate
+     * @param stringLength the expected length of each string in the input array
+     */
     /*
     validateInput enforces the invariant:
         Each string in the array must be of the same length

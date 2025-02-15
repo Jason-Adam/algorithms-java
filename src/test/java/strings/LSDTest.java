@@ -1,5 +1,6 @@
 package strings;
 
+import org.functionalbits.strings.Alphabet;
 import org.functionalbits.strings.LSD;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,8 @@ public class LSDTest {
                 "4PGC938"
         };
 
-        LSD.sort(testInput, 7);
+        LSD lsd = new LSD(Alphabet.EXTENDED_ASCII);
+        lsd.sort(testInput, 7);
         assertArrayEquals(expectedOutput, testInput);
     }
 }
