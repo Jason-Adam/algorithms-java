@@ -1,5 +1,7 @@
 package org.functionalbits.fundamentals;
 
+import java.util.Objects;
+
 public class LinkedList<E> {
     private Node<E> head;
     private Node<E> tail;
@@ -14,11 +16,7 @@ public class LinkedList<E> {
 
         if (head == null) {
             head = node;
-            head.next = tail;
-        } else if (tail == null) {
-            head.next = node;
-            node.previous = head;
-            tail = node;
+            tail = Objects.requireNonNullElse(head.next, node);
         } else {
             tail.next = node;
             node.previous = tail;
